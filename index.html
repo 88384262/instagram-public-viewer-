@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Visualizador de perfis públicos do Instagram.">
+  <title>InstaView — Perfis Públicos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">Insta<span>View</span></a>
+    <span class="badge">PERFIS PÚBLICOS</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">VISUALIZAÇÃO PÚBLICA</p>
+        <h1>Pesquise um perfil do Instagram</h1>
+        <p class="subtitle">Digite o nome de usuário para consultar informações e conteúdo público disponível.</p>
+
+        <form id="searchForm" class="search">
+          <span class="at">@</span>
+          <input id="username" autocomplete="off" maxlength="30" placeholder="exemplo" aria-label="Nome de usuário">
+          <button type="submit">Pesquisar</button>
+        </form>
+        <p class="hint">Exemplo: <button class="example" data-user="instagram">instagram</button></p>
+      </div>
+    </section>
+
+    <section id="result" class="result hidden">
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <span>Consultando perfil...</span>
+      </div>
+
+      <div id="error" class="error hidden"></div>
+
+      <div id="profileCard" class="profile-card hidden">
+        <div class="profile-head">
+          <img id="avatar" class="avatar" alt="Foto do perfil">
+          <div class="profile-main">
+            <div class="username-line">
+              <h2 id="profileUsername"></h2>
+              <span id="privateBadge" class="private hidden">🔒 Privado</span>
+            </div>
+            <h3 id="profileName"></h3>
+            <p id="bio"></p>
+            <div class="stats">
+              <div><strong id="posts">—</strong><span>publicações</span></div>
+              <div><strong id="followers">—</strong><span>seguidores</span></div>
+              <div><strong id="following">—</strong><span>seguindo</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="demoNotice" class="notice hidden">
+          <strong>Modo de demonstração</strong>
+          <span>O layout está funcionando. Configure um provedor de dados autorizado no backend para exibir dados reais.</span>
+        </div>
+
+        <div id="storiesSection" class="content-section">
+          <div class="section-title"><h3>Stories públicos</h3><span id="storyCount"></span></div>
+          <div id="stories" class="stories"></div>
+        </div>
+
+        <div id="postsSection" class="content-section">
+          <div class="section-title"><h3>Publicações</h3><span id="postCount"></span></div>
+          <div id="postsGrid" class="posts-grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>InstaView não é afiliado, associado ou patrocinado pelo Instagram ou pela Meta.</p>
+    <p>Somente conteúdo público e obtido por meios permitidos.</p>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>
