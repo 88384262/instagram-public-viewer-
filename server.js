@@ -19,18 +19,6 @@ app.get("/api/profile", async (req, res) => {
     return res.status(400).json({ error: "Digite um @usuário válido." });
   }
 
-  /*
-    IMPORTANTE:
-    O Instagram não oferece uma API oficial para consultar arbitrariamente
-    qualquer perfil público e seus stories por username.
-
-    Por isso esta rota fica preparada para receber um provedor/API autorizado.
-    Configure API_BASE_URL e API_KEY no ambiente da Vercel e adapte a função
-    abaixo ao provedor escolhido.
-
-    Sem uma API configurada, o site retorna modo de demonstração.
-  */
-
   if (!process.env.API_BASE_URL) {
     return res.json({
       demo: true,
@@ -75,6 +63,10 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor iniciado em http://localhost:${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Servidor iniciado em http://localhost:${PORT}`);
+  });
+}
+
+export default app;
