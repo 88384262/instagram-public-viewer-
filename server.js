@@ -1,10 +1,16 @@
 import express from "express";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 app.use(express.json());
 
-// Rota principal da API
+// Serve arquivos estáticos da pasta public (CSS, JS, imagens)
+app.use(express.static(path.join(__dirname, "public")));
+
+// Rota da API
 app.get("/api/profile", async (req, res) => {
   try {
     const username = String(req.query.username || "")
@@ -16,7 +22,6 @@ app.get("/api/profile", async (req, res) => {
       return res.status(400).json({ error: "Digite um @usuário válido." });
     }
 
-    // Modo de demonstração (quando sem API externa configurada)
     if (!process.env.API_BASE_URL) {
       return res.json({
         demo: true,
@@ -51,16 +56,20 @@ app.get("/api/profile", async (req, res) => {
     const data = await response.json();
     return res.json(data);
   } catch (error) {
-    console.error("Erro interno no servidor:", error);
-    return res.status(500).json({ error: "Erro interno no processamento da requisição." });
+    console.error("Erro interno:", error);
+    return res.status(500).json({ error: "Erro interno no servidor." });
   }
 });
 
-// Suporte para rodar localmente com npm start
+// Fallback: se não for /api, entrega o index.html da pasta public
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 if (!process.env.VERCEL) {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
-    console.log(`Servidor rodando localmente em http://localhost:${PORT}`);
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
   });
 }
 
